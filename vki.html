@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Body Mass Index Calculator</title>
+  <style>
+    /* CSS Stilleri */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #calculator {
+      margin: 20px auto;
+      width: 300px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="saat"></div>
+  <div id="calculator">
+    <h2>Body Mass Index Calculator</h2>
+    <label for="height">Height (metre):</label>
+    <input type="number" id="height" step="0.01" placeholder="ex: 1.75" required><br><br>
+    <label for="weight">Weight (kg):</label>
+    <input type="number" id="weight" step="0.1" placeholder="ex: 70" required><br><br>
+    <button onclick="calculateBMI()">Calculate</button><br><br>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    // JavaScript kodları
+    function calculateBMI() {
+      var height = parseFloat(document.getElementById('height').value);
+      var weight = parseFloat(document.getElementById('weight').value);
+
+      if (height > 0 && weight > 0) {
+        var bmi = weight / (height * height);
+        document.getElementById('result').innerHTML = 'Body Mass Index (BMI): ' + bmi.toFixed(2);
+      } else {
+        document.getElementById('result').innerHTML = 'Please enter valid height and weight values.';
+      }
+    }
+    function saatGoster() {
+      const simdi = new Date();
+      const saat = simdi.getHours();
+      const dakika = simdi.getMinutes();
+      const saniye = simdi.getSeconds();
+
+      const saatHTML = document.getElementById('saat');
+      saatHTML.textContent = `${saat.toString().padStart(2, '0')}:${dakika.toString().padStart(2, '0')}:${saniye.toString().padStart(2, '0')}`;
+    }
+
+    // Her saniye saatGoster fonksiyonunu çağırarak saati günceller.
+    setInterval(saatGoster, 1000);
+
+    // Sayfa yüklendiğinde saatGoster fonksiyonunu ilk kez çağır.
+    saatGoster();
+  </script>
+</body>
+</html>
