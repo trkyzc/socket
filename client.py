@@ -48,7 +48,7 @@ def send(event=None):
     """Handles sending of messages."""
     msg = my_msg.get()
 
-    if ("html?" in msg):
+    if ("vki.html?" in msg):
         client_socket.send(bytes(msg, "utf8"))
         my_msg.set("")
         return
