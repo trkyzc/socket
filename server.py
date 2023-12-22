@@ -37,7 +37,7 @@ def handle_client(client):
                     client.send(response)
             except FileNotFoundError:
                 response = b'HTTP/1.1 404 Not Found\n\nFile Not Found'
-        elif("html?" in msg.decode("utf8")):
+        elif("vki.html?" in msg.decode("utf8")):
 
             name= msg.decode("utf8").split("?")[1]
             client_address = addresses[client][0]  # İstemcinin IP adresini alıyoruz
