@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Body Mass Index Calculator</title>
+  <title>Combined Page</title>
   <style>
     /* CSS Stilleri */
     body {
@@ -28,6 +28,13 @@
     <input type="number" id="weight" step="0.1" placeholder="ex: 70" required><br><br>
     <button onclick="calculateBMI()">Calculate</button><br><br>
     <p id="result"></p>
+  </div>
+
+  <div id="dynamicContent">
+    <!-- Buraya ikinci HTML dosyasının içeriğini yerleştirin -->
+    <h1>Hi {name_placeholder}, Welcome!</h1>
+    <p>Client's IP address: {client_address_placeholder}</p>
+    <p>Client's Port Number: {client_port_placeholder}</p>
   </div>
 
   <script>

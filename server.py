@@ -6,7 +6,7 @@ from threading import Thread
 clients = {}
 addresses = {}
 
-HOST = '192.168.43.181' #localhost
+HOST = '127.0.0.1' #localhost
 PORT = 33000
 BUFSIZ = 4096
 ADDR = (HOST, PORT)
@@ -37,12 +37,23 @@ def handle_client(client):
                     client.send(response)
             except FileNotFoundError:
                 response = b'HTTP/1.1 404 Not Found\n\nFile Not Found'
+        elif("html?" in msg.decode("utf8")):
+
+            name= msg.decode("utf8").split("?")[1]
+            client_address = addresses[client][0]  # İstemcinin IP adresini alıyoruz
+            client_port = addresses[client][1]  # İstemcinin port numarasını alıyoruz
+            print(addresses[client][1])
+            with open("vki.html", 'r') as file:
+                content = file.read()
+                modified_content = content.replace("{name_placeholder}", name)
+                modified_content = modified_content.replace("{client_address_placeholder}", client_address)
+                modified_content = modified_content.replace("{client_port_placeholder}", str(client_port))
+                response = modified_content.encode("utf-8")
+                client.send(response)
+            # print(name)
 
 
-        elif msg != bytes("{quit}", "utf8"):
-            broadcast(msg,": ")
-
-        else:
+        if(msg == bytes("{quit}", "utf8")):
             client.send(bytes("{quit}", "utf8"))
             a = addresses[client][0]
             print("{} logged out.".format(a))
@@ -50,11 +61,6 @@ def handle_client(client):
             client.close()
             break
 
-
-def broadcast(msg, prefix=""):
-    """Broadcasts a message to all the clients."""
-    for sock in clients:
-        sock.send(bytes(prefix, "utf8")+msg)
 
 if __name__ == "__main__":
     SERVER.listen(5) # Listens for 5 connections at max.

@@ -7,7 +7,7 @@ from tkinter import messagebox
 
 
 
-HOST = '192.168.43.181' # localhost
+HOST = '127.0.0.1' # localhost
 PORT = 33000
 BUFSIZ = 4096
 ADDR = (HOST, PORT)
@@ -48,11 +48,21 @@ def send(event=None):
     """Handles sending of messages."""
     msg = my_msg.get()
 
+    if ("html?" in msg):
+        client_socket.send(bytes(msg, "utf8"))
+        my_msg.set("")
+        return
 
     # Eğer mesaj ".html" uzantılı değilse gönderme
     if not msg.endswith(".html") and not msg == "{quit}":
         messagebox.showwarning("Uyari", "Geçersiz dosya uzantisi. Lütfen '.html' uzantili bir mesaj giriniz.")
         return
+
+    if(msg.endswith(".html")):
+        client_socket.send(bytes(msg, "utf8"))
+
+
+
 
 
     # Eğer dosya bulunmuyorsa hata mesajı göster
@@ -61,7 +71,7 @@ def send(event=None):
         return
 
     my_msg.set("")  # Giriş alanını temizle.
-    client_socket.send(bytes(msg, "utf8"))
+    # client_socket.send(bytes(msg, "utf8"))
     if msg == "{quit}":
         app.destroy() # GUI'yi kapat
 
@@ -70,7 +80,7 @@ def send(event=None):
 def on_closing():
     my_msg.set("{quit}")
     send()
-    app.destroy()
+    # app.destroy()
 
 
 
